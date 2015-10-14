@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint src",
-    "coverage": "babel-node node_modules/.bin/isparta cover --report text --report html test/**/*.js",
-    "test": "babel-tape-runner test/**/*.js | tap-spec",
+    "coverage": "babel-node node_modules/.bin/isparta cover --report text --report html test/index.js",
+    "test": "babel-node test/index.js | tap-spec",
     "test:watch": "chokidar 'test/**/*.js' 'src/**/*.js' --command 'npm run test --silent' --initial 'npm run test --silent'",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "prebuild": "npm run clean && npm run lint && npm run test",
