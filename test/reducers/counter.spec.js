@@ -15,5 +15,11 @@ test('counter()', (t) => {
     t.end();
   });
 
+  t.test('counter(2, { type: DECREMENT_COUNTER })', (t) => {
+    t.equal(counter(2, { type: DECREMENT_COUNTER }), 1,
+      'increments state');
+    t.end();
+  });
+
   t.end();
 });

@@ -5,7 +5,7 @@ export default function counter(state = 0, action) {
     case INCREMENT_COUNTER:
       return state + 1;
     case DECREMENT_COUNTER:
-      return state + 1;
+      return state - 1;
     default:
       return state;
   }
