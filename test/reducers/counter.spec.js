@@ -17,7 +17,13 @@ test('counter()', (t) => {
 
   t.test('counter(2, { type: DECREMENT_COUNTER })', (t) => {
     t.equal(counter(2, { type: DECREMENT_COUNTER }), 1,
-      'increments state');
+      'decrements state');
+    t.end();
+  });
+
+  t.test('counter(1, { type: UNKNOWN })', (t) => {
+    t.equal(counter(1, { type: 'UNKNOWN' }), 1,
+      'handles unknown state');
     t.end();
   });
 
