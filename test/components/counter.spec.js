@@ -2,11 +2,10 @@ import test from 'tape';
 import sinon from 'sinon';
 import jsdom from 'jsdom';
 import dom from '../utils/dom';
-import React from 'react';
+import React from 'react/addons';
 import counterFactory from '../../src/components/counter';
 
-let document;
-let window;
+const { TestUtils } = React.addons;
 
 function setup() {
   let { window } = dom(jsdom);
@@ -20,39 +19,26 @@ function setup() {
 
   const Counter = counterFactory(React);
   const container = window.document.createElement('div');
-  const component = React.render(<Counter counter={1} {...actions} />, container);
+
+  React.render(<Counter counter={1} {...actions} />, container);
 
   return {
-    component: component,
     actions: actions,
     container: container
   };
 };
 
 test('<Counter />', (t) => {
-  const { component, actions, container } = setup();
-  console.log(container.innerHTML);
 
-  // t.test('<Counter counter={1} />', (t) => {
-  //   const { component } = setup();
-  //
-  //   const counterValue = TestUtils.findRenderedDOMComponentWithClass(
-  //       component,
-  //       'counter__value'
-  //     ).getDOMNode();
-  //
-  //
-  //   t.equal(counterValue.textContent, '1');
-  //   t.end();
-  // });
 
-  // t.test('<Counter counter={1} />', (t) => {
-  //   const { $, actions } = setup();
-  //   const btn = $('.counter__increment')[0];
-  //   TestUtils.Simulate.click(btn);
-  //   t.equal(actions.increment.calledOnce, true);
-  //   t.end();
-  // });
+  t.test('<Counter counter={1} />', (t) => {
+    const { actions, container } = setup();
+    let btn = container.getElementsByClassName('counter__increment');
+    React.addons.TestUtils.Simulate.click(btn[0]);
+
+    t.equal(actions.increment.calledOnce, true);
+    t.end();
+  });
 
   t.end();
 });
