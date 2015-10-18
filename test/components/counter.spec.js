@@ -1,6 +1,7 @@
 import test from 'tape';
 import sinon from 'sinon';
 import jsdom from 'jsdom';
+import dom from '../utils/dom';
 import React from 'react';
 import counterFactory from '../../src/components/counter';
 
@@ -8,10 +9,7 @@ let document;
 let window;
 
 function setup() {
-
-  global.document = document = jsdom.jsdom();
-  global.window = window = global.document.defaultView;
-  global.navigator = global.window.navigator;
+  let { window } = dom(jsdom);
 
   const actions = {
     increment: sinon.spy(),
@@ -24,19 +22,16 @@ function setup() {
   const container = window.document.createElement('div');
   const component = React.render(<Counter counter={1} {...actions} />, container);
 
-  window.document.body.appendChild(container);
-
   return {
     component: component,
-    actions: actions
+    actions: actions,
+    container: container
   };
 };
 
 test('<Counter />', (t) => {
-  const { component, actions } = setup();
-
-
-  console.log(global.document.documentElement.outerHTML);
+  const { component, actions, container } = setup();
+  console.log(container.innerHTML);
 
   // t.test('<Counter counter={1} />', (t) => {
   //   const { component } = setup();

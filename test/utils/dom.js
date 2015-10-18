@@ -1,7 +1,11 @@
-// file: test/setup.js
-var jsdom = require('jsdom');
+export default function dom (jsdom) {
+  global.document = jsdom.jsdom();
+  global.window = global.document.defaultView;
+  global.navigator = global.window.navigator;
 
-// A super simple DOM ready for React to render into
-// Store this DOM and the window in global scope ready for React to access
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = document.parentWindow;
+  return {
+    document: global.document,
+    window: global.window,
+    navigator: global.navigator
+  };
+};
