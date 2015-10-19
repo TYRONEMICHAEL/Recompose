@@ -1,14 +1,16 @@
 import test from 'tape';
 import sinon from 'sinon';
-import jsdom from 'jsdom';
-import dom from '../utils/dom';
-import React from 'react/addons';
+import createDocument from '../utils/createDocument';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-addons-test-utils';
+
 import counterFactory from '../../src/components/counter';
 
-const { TestUtils } = React.addons;
-
 function setup() {
-  let { window } = dom(jsdom);
+  const document = createDocument();
+  const Counter = counterFactory(React);
+  const container = document.createElement('div');
 
   const actions = {
     increment: sinon.spy(),
@@ -17,10 +19,7 @@ function setup() {
     decrement: sinon.spy()
   };
 
-  const Counter = counterFactory(React);
-  const container = window.document.createElement('div');
-
-  React.render(<Counter counter={1} {...actions} />, container);
+  ReactDOM.render(<Counter counter={1} {...actions} />, container);
 
   return {
     actions: actions,
@@ -28,15 +27,35 @@ function setup() {
   };
 };
 
-test('<Counter />', (t) => {
+test('Counter component', (t) => {
+  t.test('should display count', (t) => {
+    const { container } = setup();
+    const count = container.getElementsByClassName('counter__value')[0];
+    t.equal(count.innerHTML, '1');
+    t.end();
+  });
 
-
-  t.test('<Counter counter={1} />', (t) => {
+  t.test('increment button should call increment action', (t) => {
     const { actions, container } = setup();
-    let btn = container.getElementsByClassName('counter__increment');
-    React.addons.TestUtils.Simulate.click(btn[0]);
+    const btn = container.getElementsByClassName('counter__increment')[0];
+    ReactTestUtils.Simulate.click(btn);
+    t.equal(actions.increment.calledOnce, true, );
+    t.end();
+  });
 
-    t.equal(actions.increment.calledOnce, true);
+  t.test('decrement button should call decrement action', (t) => {
+    const { actions, container } = setup();
+    const btn = container.getElementsByClassName('counter__decrement')[0];
+    ReactTestUtils.Simulate.click(btn);
+    t.equal(actions.decrement.calledOnce, true, );
+    t.end();
+  });
+
+  t.test('odd button should call incrementIfOdd action', (t) => {
+    const { actions, container } = setup();
+    const btn = container.getElementsByClassName('counter__odd')[0];
+    ReactTestUtils.Simulate.click(btn);
+    t.equal(actions.incrementIfOdd.calledOnce, true, );
     t.end();
   });
 

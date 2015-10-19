@@ -51,6 +51,7 @@
     "isparta": "^3.0.4",
     "jsdom": "^7.0.0",
     "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.0",
     "redbox-react": "^1.0.1",
