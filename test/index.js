@@ -4,4 +4,5 @@
 
 // import actions from './actions/counter.spec';
 // import reducers from './reducers/counter.spec';
-import components from './components/Counter.spec';
+// import components from './components/Counter.spec';
+import components from './containers/App.spec';
